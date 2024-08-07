@@ -1,8 +1,24 @@
-const response = await fetch('http://localhost:5678/api/works');
-const works = await response.json();
-console.log(works);
+const api = 'http://localhost:5678/api';
 
-function listWorks() {
+const responseWorks = await fetch(`${api}/works`);
+const works = await responseWorks.json();
+listWorks(works);
+
+const btnCategories = document.querySelectorAll('.category-item');
+btnCategories.forEach(btnCategory => {
+    btnCategory.addEventListener('click', function() {
+        btnCategories.forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+
+        const worksFiltered = filterWorkByCategory(btnCategory.textContent);
+        if (worksFiltered.length > 0) {
+            removeWorks();
+            listWorks(worksFiltered);
+        }
+    });
+});
+
+function listWorks(works) {
     for (let i = 0; i < works.length; i++) {
         const sectionGalery = document.querySelector(".gallery");
         
@@ -21,4 +37,21 @@ function listWorks() {
     }
 }
 
-listWorks();
+function filterWorkByCategory(category)
+{
+    if (category === 'Tous') {
+        return works;
+    }
+
+    const worksFiltered = works.filter(function(work) {
+        return work.category.name === category;
+    });
+
+    return worksFiltered;
+}
+
+function removeWorks()
+{
+    const sectionGalery = document.querySelector(".gallery");
+    sectionGalery.innerHTML = '';
+}
