@@ -18,6 +18,13 @@ btnCategories.forEach(btnCategory => {
     });
 });
 
+const editSite = document.querySelector('.edit-site');
+const params = getQueryParams();
+const session = params.session;
+if (session !== undefined) {
+    editSite.style.display = 'flex';
+}
+
 function listWorks(works) {
     for (let i = 0; i < works.length; i++) {
         const sectionGalery = document.querySelector(".gallery");
@@ -54,4 +61,15 @@ function removeWorks()
 {
     const sectionGalery = document.querySelector(".gallery");
     sectionGalery.innerHTML = '';
+}
+
+// Fonction pour récupérer les paramètres de l'URL
+function getQueryParams() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const params = {};
+    urlParams.forEach((value, key) => {
+        params[key] = value;
+    });
+    return params;
 }

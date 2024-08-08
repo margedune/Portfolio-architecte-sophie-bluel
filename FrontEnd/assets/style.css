@@ -93,6 +93,7 @@ nav ul {
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
+	cursor: pointer;
 }
 
 li:hover {
@@ -121,10 +122,30 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
-#portfolio h2 {
-	text-align: center;
+
+#portfolio .title {
+	display: flex;
+	justify-content: center;
+    align-items: center;
 	margin-bottom: 1em;
+	gap: 10px;
 }
+#portfolio .title h2 {
+	text-align: center;
+}
+#portfolio .edit-site {
+	cursor: pointer;
+	display: flex; 
+	align-items: center;
+	gap: 10px;
+	display: none;
+}
+#portfolio .edit-site img {
+	vertical-align: middle; 
+	width: 15.58px; 
+	height: 15.58px;
+}
+	
 .gallery {
 	width: 100%;
 	display: grid;
@@ -210,4 +231,52 @@ footer nav ul {
 .category-item.active {
     background-color: #1D6154;
     color: white;
+}
+
+.login {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+    align-items: center;
+	width: 380px;
+	margin: auto;
+}
+
+.login h4 {
+	font-family: serif;
+	font-size: 30px;
+	font-weight: 700;
+	line-height: 36px;
+	color:  #1D6154;
+}
+
+.login div {
+	margin-top: 10px;
+	width: 100%;
+}
+
+.login input {
+	margin-top: 5px;
+	width: 379px;
+	height: 51px;
+}
+
+.login button {
+	margin-top: 10px;
+	width: 179px;
+	height: 36px;
+	border-radius: 60px;
+	cursor: pointer;
+	border: none;
+	background: #1D6154;
+	color: white;
+}
+
+.login .message {
+	color: red;
+}
+
+.edit-site {
+	width: 15.58px;
+	height: 15.58px;
 }
