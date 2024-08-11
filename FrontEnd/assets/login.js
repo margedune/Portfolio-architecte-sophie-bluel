@@ -27,6 +27,8 @@ async function login()
     if (loginResponse.status === 404) {
         const errorMessage = document.querySelector('.message');
         errorMessage.innerHTML = 'Erreur dans l\'identifiant ou le mot de passe';
+
+        return;
     }
 
     if (loginResponse.status === 200) {

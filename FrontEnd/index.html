@@ -67,26 +67,32 @@
 		<div id="modal-edit-site" class="modal">
 			<div class="modal-content">
 				<span class="close">&times;</span>
-				<h2>Galerie photo</h2>
-				<div class="modal-gallery"></div>
-				<div>
-					<img class="line" src="./assets/images/Line 1.png" alt="">
+				<div class="modal-gallery" style="display: none;">
+					<h2>Galerie photo</h2>
+					<div class="figure-list"></div>
+					<div>
+						<img class="line" src="./assets/images/Line 1.png" alt="">
+					</div>
+					<div class="modal-footer">
+						<button id="btn-add-image" class="button">Ajouter une photo</button>
+					</div>
 				</div>
-				<div class="modal-footer">
-					<button class="button">Ajouter une photo</button>
+				<div id="add-image-form" class="add-image-form" style="display: none;">
+					<h3>Ajouter une nouvelle image</h3>
+					<form id="image-upload-form">
+						<label for="image-title">Titre de l'image:</label>
+						<input type="text" id="image-title" name="image-title" required>
+						
+						<label for="image-file">Fichier image:</label>
+						<input type="file" id="image-file" name="image-file" accept="image/*" required>
+				
+						<button type="submit">Charger l'image</button>
+						<button type="button" id="cancel-add-image">Annuler</button>
+					</form>
 				</div>
 			</div>
 		</div>
 	</main>
-
-	<footer>
-		<nav>
-			<ul>
-				<li>Mentions Légales</li>
-			</ul>
-		</nav>
-	</footer>
-	<script type="module" src="./assets/index.js"></script>
 	<footer>
 		<nav>
 			<ul>
