@@ -78,16 +78,27 @@
 					</div>
 				</div>
 				<div id="add-image-form" class="add-image-form" style="display: none;">
-					<h3>Ajouter une nouvelle image</h3>
+					<h3>Ajout photo</h3>
 					<form id="image-upload-form">
-						<label for="image-title">Titre de l'image:</label>
-						<input type="text" id="image-title" name="image-title" required>
-						
-						<label for="image-file">Fichier image:</label>
-						<input type="file" id="image-file" name="image-file" accept="image/*" required>
-				
-						<button type="submit">Charger l'image</button>
-						<button type="button" id="cancel-add-image">Annuler</button>
+						<div id="add-image-file" class="add-image-file">
+							<div class="loaded-image"></div>
+							<img class="icon-add-image" src="./assets/images/picture-svgrepo-com 1.png"/>
+							<img class="btn-add-image" src="./assets/images/add-image-btn.png" />
+							<!-- Le champ d'entrée de type fichier masqué -->
+							<input id="file-upload" type="file" accept="image/png, image/jpeg" name="image"/>
+							<span>jpg, png : 4mo max</span>
+						</div>
+						<label for="name">Titre</label>
+						<input type="text" name="title" id="titre">
+						<label for="category">Category</label>
+						<select name="category" id="category"></select>
+						<br><br><br>
+						<img class="line" src="./assets/images/Line 1.png" alt="">
+						<br><br>
+						<div class="footer">
+							<button id="btn-upload-image" class="button">Valider</button>
+						</div>
+						<br><br>
 					</form>
 				</div>
 			</div>

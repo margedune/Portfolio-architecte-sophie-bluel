@@ -180,15 +180,22 @@ window.addEventListener('click', function(event) {
 });
 
 // Afficher le formulaire d'ajout d'image
-addImageButton.addEventListener('click', function() {
+addImageButton.addEventListener('click', async function() {
     galleryModal.style.display = 'none'; // Masquer la galerie d'images
     addImageForm.style.display = 'block'; // Afficher le formulaire d'ajout d'image
-});
 
-// Annuler l'ajout d'image et revenir à la galerie
-cancelAddImageButton.addEventListener('click', function() {
-    addImageForm.style.display = 'none'; // Masquer le formulaire d'ajout d'image
-    galleryModal.style.display = 'block'; // Afficher la galerie d'images
+    const imageCategory = document.getElementById('category');
+    imageCategory.innerHTML = '';
+    const defaultOption = document.createElement('option');
+    imageCategory.appendChild(defaultOption);
+    const categoriesResponse = await fetch(`${api}/categories`); 
+    const categories = await categoriesResponse.json();
+    categories.forEach(function (category) {
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.innerText = category.id;
+        imageCategory.appendChild(option);
+    });
 });
 
 // Gérer la soumission du formulaire d'ajout d'image
@@ -199,7 +206,10 @@ imageUploadForm.addEventListener('submit', async function(event) {
     try {
         const response = await fetch(`${api}/works`, {
             method: 'POST',
-            body: formData
+            headers: {
+                'Authorization': `Bearer ${session}`
+            },
+            body: formData,
         });
         
         if (response.ok) {
@@ -212,5 +222,19 @@ imageUploadForm.addEventListener('submit', async function(event) {
         }
     } catch (error) {
         console.error("Erreur lors de la soumission du formulaire :", error);
+    }
+});
+
+document.getElementById('file-upload').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.querySelector('.loaded-image').style.backgroundImage = `url(${e.target.result})`;
+            document.querySelector('.icon-add-image').style.display = 'none';
+            document.querySelector('.btn-add-image').style.display = 'none';
+            document.querySelector('#add-image-file span').style.display = 'none';
+        }
+        reader.readAsDataURL(file);
     }
 });
