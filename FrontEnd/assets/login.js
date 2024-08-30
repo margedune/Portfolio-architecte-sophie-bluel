@@ -24,7 +24,7 @@ async function login()
         body: JSON.stringify(data) // Convertir l'objet JavaScript en chaîne JSON
     });
 
-    if (loginResponse.status === 404) {
+    if (loginResponse.status === 404 || loginResponse.status === 401) {
         const errorMessage = document.querySelector('.message');
         errorMessage.innerHTML = 'Erreur dans l\'identifiant ou le mot de passe';
 
@@ -33,7 +33,8 @@ async function login()
 
     if (loginResponse.status === 200) {
         const loginResponseJson = await loginResponse.json();
-        const session = loginResponseJson.token;
-        window.location.href = `/FrontEnd/index.html?session=${session}`;
+        const token = loginResponseJson.token;
+        localStorage.setItem('token', 'token');
+        window.location.href = `/FrontEnd/index.html`;
     }
 }

@@ -46,9 +46,8 @@ btnCategories.forEach(function(btnCategory) {
 
 // Affichage de l'option d'édition si l'utilisateur est connecté
 const editSite = document.querySelector('.edit-site');
-const params = getQueryParams();
-const session = params.session;
-if (session !== undefined) {
+const token = localStorage.getItem('token');
+if (token !== null) {
     editSite.style.display = 'flex';
 }
 
@@ -84,7 +83,7 @@ function listWorks(works, targetElement, caption = true, edit = false) {
         targetElement.appendChild(figureElement);
     });
 
-    // Attacher les gestionnaires d'événements de suppression après avoir listé les travaux
+    // Attacher les gestionnaires d'événements (écouteurs d'évenement) de suppression après avoir listé les travaux
     attachDeleteEventListeners(targetElement);
 }
 
@@ -104,17 +103,6 @@ function filterWorkByCategory(category) {
 // Supprimer tous les travaux du DOM
 function removeWorks(targetElement) {
     targetElement.innerHTML = '';
-}
-
-// Récupérer les paramètres de l'URL
-function getQueryParams() {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const params = {};
-    urlParams.forEach(function(value, key) {
-        params[key] = value;
-    });
-    return params;
 }
 
 // Fonction pour afficher le modal
@@ -154,6 +142,7 @@ function attachDeleteEventListeners(targetElement) {
                 });
                 if (deleteWork.status === 204) {
                     // Re-fetch the updated works list and update the modal
+                    // Re attribuer la mise à jour des listes travaux (figure) et travaux (modal)
                     await updateModalContent(); // Mise à jour du contenu du modal
                 }
             } catch (error) {
@@ -184,21 +173,22 @@ addImageButton.addEventListener('click', async function() {
     galleryModal.style.display = 'none'; // Masquer la galerie d'images
     addImageForm.style.display = 'block'; // Afficher le formulaire d'ajout d'image
 
-    const imageCategory = document.getElementById('category');
-    imageCategory.innerHTML = '';
+    // Générer les options catégories
+    const imageCategorySelect = document.getElementById('category');
+    imageCategorySelect.innerHTML = '';
     const defaultOption = document.createElement('option');
-    imageCategory.appendChild(defaultOption);
+    imageCategorySelect.appendChild(defaultOption);
     const categoriesResponse = await fetch(`${api}/categories`); 
     const categories = await categoriesResponse.json();
     categories.forEach(function (category) {
         const option = document.createElement('option');
         option.value = category.id;
-        option.innerText = category.id;
-        imageCategory.appendChild(option);
+        option.innerText = category.name;
+        imageCategorySelect.appendChild(option);
     });
 });
 
-// Gérer la soumission du formulaire d'ajout d'image
+// Gérer la soumission du formulaire d'ajout d'image (l'envoie de nouvelles images à l'API)
 imageUploadForm.addEventListener('submit', async function(event) {
     event.preventDefault();
 
@@ -224,7 +214,7 @@ imageUploadForm.addEventListener('submit', async function(event) {
         console.error("Erreur lors de la soumission du formulaire :", error);
     }
 });
-
+// Aperçu image avant upload
 document.getElementById('file-upload').addEventListener('change', function(event) {
     const file = event.target.files[0];
     if (file) {
