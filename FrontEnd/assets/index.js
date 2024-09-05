@@ -9,6 +9,8 @@ const addImageButton = document.getElementById('btn-add-image');
 const cancelAddImageButton = document.getElementById('cancel-add-image');
 const imageUploadForm = document.getElementById('image-upload-form');
 const figureList = document.querySelector(".figure-list");
+const menuLogin = document.querySelector('#menu-login');
+const menuLogout = document.querySelector('#menu-logout');
 
 var works = [];
 var sectionGalery = null;
@@ -49,6 +51,9 @@ const editSite = document.querySelector('.edit-site');
 const token = localStorage.getItem('token');
 if (token !== null) {
     editSite.style.display = 'flex';
+    // Menu login et logout
+    menuLogin.style.display = 'none';
+    menuLogout.style.display = 'flex';
 }
 
 // Fonction pour lister les travaux
@@ -137,7 +142,7 @@ function attachDeleteEventListeners(targetElement) {
                 const deleteWork = await fetch(`${api}/works/${workId}`, {
                     method: 'DELETE',
                     headers: {
-                        'Authorization': `Bearer ${session}`
+                        'Authorization': `Bearer ${token}`
                     }
                 });
                 if (deleteWork.status === 204) {
@@ -197,7 +202,7 @@ imageUploadForm.addEventListener('submit', async function(event) {
         const response = await fetch(`${api}/works`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${session}`
+                'Authorization': `Bearer ${token}`
             },
             body: formData,
         });
@@ -228,3 +233,14 @@ document.getElementById('file-upload').addEventListener('change', function(event
         reader.readAsDataURL(file);
     }
 });
+
+// Se déconnecter
+menuLogout.addEventListener('click', function() {
+    logout();
+});
+
+function logout()
+{
+    localStorage.removeItem('token');
+    location.reload();
+}

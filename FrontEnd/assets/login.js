@@ -34,7 +34,7 @@ async function login()
     if (loginResponse.status === 200) {
         const loginResponseJson = await loginResponse.json();
         const token = loginResponseJson.token;
-        localStorage.setItem('token', 'token');
+        localStorage.setItem('token', token);
         window.location.href = `/FrontEnd/index.html`;
     }
 }
